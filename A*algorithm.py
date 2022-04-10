@@ -17,7 +17,7 @@ def findPathValue(graph):
     print("path",path)
     if(len(path)>1):
         length = 0
-        for i in range(len(path)-2):
+        for i in range(len(path)-1):
             length = graph.nodes[path[i]]["neighbours"][path[i+1]] + length
         return length
     else:
@@ -33,7 +33,8 @@ def Astar(graph,source,destination):
         print(source)
         pathValue = findPathValue(graph)
         for neighbour in graph.nodes[source]["neighbours"].keys():
-            f =  pathValue + graph.nodes[source]["weight"] + graph.nodes[source]["neighbours"][neighbour]
+            f =  pathValue + graph.nodes[neighbour]["weight"] + graph.nodes[source]["neighbours"][neighbour]
+            print(neighbour,"-->",f)
             if f<min:
                 min = f
                 next = neighbour
