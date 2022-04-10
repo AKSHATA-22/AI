@@ -10,7 +10,7 @@ class Graph:
     
 def BFS(graph,start,n):
     status = [1]*n
-
+    print("Status : ",status)
     queue = []
 
     status[start] = 2
@@ -18,7 +18,7 @@ def BFS(graph,start,n):
     while queue:
         element = queue.pop(0)
 
-        print(element)
+        print("Element : ",element)
 
         neighbours = graph.nodes[element]
 
@@ -26,8 +26,10 @@ def BFS(graph,start,n):
             if status[neighbour] == 1:
                 status[neighbour] = 2
                 queue.append(neighbour)
-        print(queue)
         status[element] = 3
+        print("Queue : ",queue)
+        print("Status : ",status)
+        
 
 n = int(input("Enter the number of nodes : "))
 g = Graph(n)
