@@ -15,8 +15,8 @@ def DFS(graph,start,n):
 
     status[start] = 2
     stack.append(0)
-    while queue:
-        element = queue.pop()
+    while stack:
+        element = stack.pop()
 
         print(element)
 
