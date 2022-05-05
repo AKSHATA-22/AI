@@ -48,4 +48,5 @@ def findBestActor(df):
 
             print("{} is the best actor ".format(df.loc[i,"Name"])) 
 
+# print(df.loc[2])
 findBestActor(df) 
