@@ -32,7 +32,7 @@ def Astar(graph,source,destination):
     if source == destination:
         return
     else:
-        min = 100
+        min = 99999
         print(source)
         pathValue = findPathValue(graph)
         for neighbour in graph.nodes[source]["neighbours"].keys():
