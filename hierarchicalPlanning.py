@@ -28,7 +28,7 @@ carOptions = [
 ]
 options3 = [
             {
-                "action":"Board from stop",
+                "action":"Start your travel",
             },
             {
                 "action":"Drive to destination"
@@ -39,22 +39,21 @@ options3 = [
 var1 = int(input("Select either 1,2,3: "))
 if var1==1:
   actions.append(options1[0]["action"])
-  var1 = int(input("Select either 1. Book tickets, 2. Board from stop:: "))
-  if var1==1:
+  var2 = int(input("Select either 1. Book tickets, 2. Board from stop:: "))
+  if var2==1:
     actions.append(options2[0]["action"])
-  if var1==2:
+  if var2==2:
     actions.append(options2[1]["action"])
     actions.append(options3[0]["action"])
-  actions.append(options3[0]["action"])
   pass
 
 if var1==2:
   actions.append(options1[1]["action"])
-  var1 = int(input("Select either 1. Book tickets, 2. Board from stop: "))
-  if var1==1:
+  var2 = int(input("Select either 1. Book tickets, 2. Board from stop: "))
+  if var2==1:
     actions.append(options2[0]["action"])
     actions.append(options3[0]["action"])
-  if var1==2:
+  if var2==2:
     actions.append(options2[1]["action"])
   pass
 
