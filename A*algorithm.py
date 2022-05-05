@@ -1,3 +1,6 @@
+import json
+
+
 class Graph:
 
     def __init__(self,n):
@@ -59,7 +62,7 @@ for i in range(n):
 dest = int(input("Enter the destination : "))
 path.append(0)
 Astar(g,0,dest)
-print(g.nodes)
+print(json.dumps(g.nodes,indent=4))
 print(path)
 
 # 0,1,4

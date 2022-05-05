@@ -51,14 +51,20 @@ def hillClimbing(tsp):
 
     return currentSolution, currentRouteLength
 
-def main():
-    tsp = [
-        [0, 400, 500, 300],
-        [400, 0, 300, 500],
-        [500, 300, 0, 400],
-        [300, 500, 400, 0]
-    ]
+tsp = [
+    [0, 400, 500, 300],
+    [400, 0, 300, 500],
+    [500, 300, 0, 400],
+    [300, 500, 400, 0]
+]
 
-    print(hillClimbing(tsp))
+'''
+Graph
+  A   B   C   D
+A 0   400 500 300
+B 400 0   300 500
+C 500 300 0   400
+D 300 500 400 0
+'''
 
-main()
+print(hillClimbing(tsp))
