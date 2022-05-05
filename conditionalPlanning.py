@@ -32,9 +32,9 @@ def conditionalPlan():
         newAction = action(currentState.side)
         if newAction!="suck":
             currentState.side = newAction
-        if newAction == "right":
+        if currentState.side == "right":
             currentState.garbagePresentRight = isGarbage()
-        if newAction == "left":
+        elif currentState.side == "left":
             currentState.garbagePresentLeft = isGarbage()
         path.append(newAction)
         print(currentState.side+"\t\t"+str(currentState.garbagePresentLeft)+"\t\t"+str(currentState.garbagePresentRight)+"\t\t"+newAction+"\n")
