@@ -11,6 +11,7 @@ class Graph:
 
     def addWeight(self,node,weight):
         self.nodes[node]["weight"] = weight
+
 path = []
 
 def findPathValue(graph):
@@ -22,7 +23,6 @@ def findPathValue(graph):
         return length
     else:
         return 0
-
 
 def Astar(graph,source,destination):
 
@@ -41,9 +41,7 @@ def Astar(graph,source,destination):
                 
         path.append(next)
         Astar(graph,next,destination)
-
-
-        
+    
 n = int(input("Enter the number of nodes : "))
 
 g = Graph(n)
