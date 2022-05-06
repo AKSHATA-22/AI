@@ -1,22 +1,20 @@
-import json
 import random
-actions = {
-            "1":"Start",
-            "2":"RightSock",
-            "3":"RightSockOn",
-            "4":"LeftSock",
-            "5":"LeftSockOn",
-            "6":"RightShoe",
-            "7":"RightShoeOn",
-            "8":"LeftShoe",
-            "9":"LeftShoeOn",
-            "10":"Finish"
-            }
-preConditions = {}
-sequenceOfActions = []
+
+class Action:
+    def __init__(self, name):
+        self.name = name
+        self.preconditions = []
+        self.effects = []
+
+    def addPreconditions(self, conditions):
+        for condition in conditions:
+            self.preconditions.append(condition)
+    def addEffects(self,effects):
+        for effect in effects:
+            self.effects.append(effect)
 
 def getNextAction():
-    return random.sample(set(actions.values())-set(sequenceOfActions),1)[0]
+    return random.sample(set(actions)-set(sequenceOfActions),1)[0]
 
 def check(conditions):
     for condition in conditions:
@@ -24,52 +22,55 @@ def check(conditions):
             return False
     return True
 
-for i in range(1,len(actions)+1):
-    print(actions)
-    choice = 0
-    print("Enter the precondtions for : "+actions[str(i)])
-    choice = int(input())
-    while choice!=-1:
-        if actions[str(i)] not in preConditions.keys():
-            preConditions[actions[str(i)]] = []
-        preConditions[actions[str(i)]].append(actions[str(choice)])
-        choice = int(input())
+def printSequenceOfActions():
+    for action in sequenceOfActions:
+        # print(type(action))
+        if type(action)!=str:
+            print(action.name,end=" ")
+        else:
+            print(action,end=" ")
+    print("\n")
 
-sequenceOfActions.append(actions["1"])
-print("PRECONDITIONS : ")
-print(json.dumps(preConditions,indent=3))
-while True:
-    nextAction = getNextAction() 
-    if nextAction in preConditions.keys():
-        if check(preConditions[nextAction]):
+def partialOrderPlanning():
+    while True:
+        nextAction = getNextAction() 
+        if check(nextAction.preconditions):
             sequenceOfActions.append(nextAction)
-            print(sequenceOfActions)
-    else:
-        sequenceOfActions.append(nextAction)
-        print(sequenceOfActions)
-    if sequenceOfActions[-1] == "Finish":
-        break
+            for effect in nextAction.effects:
+                sequenceOfActions.append(effect)
+            printSequenceOfActions()
+        if sequenceOfActions[-1] == Finish:
+            break
 
+Start = Action("Start")
+RightSock = Action("RightSock")
+LeftSock = Action("LeftSock")
+RightShoe = Action("RightShoe")
+LeftShoe = Action("LeftShoe")
+Finish = Action("Finish")
 
-print(sequenceOfActions)
+actions = [Start,RightSock,LeftSock,RightShoe,LeftShoe,Finish]
 
-# -1
-# -1
-# 2
-# -1
-# -1
-# 4
-# -1
-# 2
-# 3
-# -1
-# 6
-# -1
-# 5
-# 6
-# -1
-# 8
-# -1
-# 7
-# 9
-# -1
+RightShoe.addPreconditions([RightSock])
+LeftShoe.addPreconditions([LeftSock])
+Finish.addPreconditions([RightShoe,LeftShoe])
+
+RightSock.addEffects(["RightSockOn"])
+LeftSock.addEffects(["LeftSockOn"])
+RightShoe.addEffects(["RightShoeOn"])
+LeftShoe.addEffects(["LeftShoeOn"])
+
+sequenceOfActions = []
+
+sequenceOfActions.append(actions[0])
+for action in actions:
+    print("ACTION : ",end=" ")
+    print(action.name,end=" ")
+    print("\nPRECONDITIONS : ",end=" ")
+    for precondition in action.preconditions:
+        print(precondition.name,end=" ")
+    print("\nEFFECTS : ",end=" ")
+    print(action.effects)
+    print("\n")
+
+partialOrderPlanning()
