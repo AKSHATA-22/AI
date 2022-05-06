@@ -37,7 +37,6 @@ def conditionalPlan():
         sideChanged = False
         if newAction!="suck":
             sideChanged = isSideChanged(newAction,currentState.side)
-            currentState.side = newAction
         if not sideChanged:
             if currentState.side == "right":
                 currentState.garbagePresentRight = isGarbage()
@@ -48,6 +47,7 @@ def conditionalPlan():
                 currentState.garbagePresentRight = isGarbage()
             elif currentState.side == "left" and currentState.garbagePresentLeft!=True:
                 currentState.garbagePresentLeft = isGarbage()
+            currentState.side = newAction
         path.append(newAction)
     print(currentState.side+"\t\t"+str(currentState.garbagePresentLeft)+"\t\t"+str(currentState.garbagePresentRight)+"\t\t"+newAction+"\n")
 
