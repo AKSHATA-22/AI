@@ -1,70 +1,85 @@
 import random
 
-def randomSolution(tsp):
-    cities = list(range(len(tsp)))
-    solution = []
+class graph():
+    def __init__(self) :
+        self.matrix = [
+            [1,2,4],
+            [5,0,7],
+            [3,6,8]
+        ]
+    
+    def printMatrix(self):
+        for i in range(3):
+            for j in range(3):
+                print(self.matrix[i][j],end=' ')
+            print()
 
-    for i in range(len(tsp)):
-        randomCity = cities[random.randint(0, len(cities) - 1)]
-        solution.append(randomCity)
-        cities.remove(randomCity)
+    def getCost(self):
+        error=0
+        if self.matrix[0][0] != 1:
+            error+=1
+        if self.matrix[0][1] != 2:
+            error+=1
+        if self.matrix[0][2] != 3:
+            error+=1
+        if self.matrix[1][0] != 4:
+            error+=1
+        if self.matrix[1][1] != 5:
+            error+=1
+        if self.matrix[1][2] != 6:
+            error+=1
+        if self.matrix[2][0] != 7:
+            error+=1
+        if self.matrix[2][1] != 8:
+            error+=1
+        return error
 
-    return solution
+    def canSwap(self,i,j):
+        if i-1>=0 & self.matrix[i-1][j]==0:
+            return True
+        if i+1<=2 & self.matrix[i+1][j]==0:
+            return True
+        if j-1>=0 & self.matrix[i][j-1]==0:
+            return True
+        if j+1<=2 & self.matrix[i][j+1]==0:
+            return True
+        return False
 
-def routeLength(tsp, solution):
-    routeLength = 0
-    for i in range(len(solution)):
-        routeLength += tsp[solution[i - 1]][solution[i]]
-    return routeLength
+    def getZero(self):
+        for i in range(3):
+            for j in range(3):
+                if self.matrix[i][j]==0:
+                    return i,j
 
-def getNeighbours(solution):
-    neighbours = []
-    for i in range(len(solution)):
-        for j in range(i + 1, len(solution)):
-            neighbour = solution.copy()
-            neighbour[i] = solution[j]
-            neighbour[j] = solution[i]
-            neighbours.append(neighbour)
-    return neighbours
+    def swap(self):
+        irand = random.randint(0,2)
+        jrand = random.randint(0,2)
 
-def getBestNeighbour(tsp, neighbours):
-    bestRouteLength = routeLength(tsp, neighbours[0])
-    bestNeighbour = neighbours[0]
-    for neighbour in neighbours:
-        currentRouteLength = routeLength(tsp, neighbour)
-        if currentRouteLength < bestRouteLength:
-            bestRouteLength = currentRouteLength
-            bestNeighbour = neighbour
-    return bestNeighbour, bestRouteLength
+        if self.canSwap(irand,jrand):
+            val = self.matrix[irand][jrand]
+            izero, jzero = self.getZero()
+            self.matrix[izero][jzero] = val
+            self.matrix[irand][jrand] = 0
+        else:
+            self.swap() 
 
-def hillClimbing(tsp):
-    currentSolution = randomSolution(tsp)
-    currentRouteLength = routeLength(tsp, currentSolution)
-    neighbours = getNeighbours(currentSolution)
-    bestNeighbour, bestNeighbourRouteLength = getBestNeighbour(tsp, neighbours)
+    def hillClimbing(self):
+        cost = self.getCost()
+        if cost == 0:
+            print("Solution found")
+            self.printMatrix()
+        while True:
+            self.swap()
+            newCost = self.getCost()
+            print(newCost)
 
-    while bestNeighbourRouteLength < currentRouteLength:
-        currentSolution = bestNeighbour
-        currentRouteLength = bestNeighbourRouteLength
-        neighbours = getNeighbours(currentSolution)
-        bestNeighbour, bestNeighbourRouteLength = getBestNeighbour(tsp, neighbours)
+            if newCost == 0:
+                print("Solution found")
+                self.printMatrix()
+                return
+            elif newCost<cost:
+                cost = newCost
 
-    return currentSolution, currentRouteLength
-
-tsp = [
-    [0, 400, 500, 300],
-    [400, 0, 300, 500],
-    [500, 300, 0, 400],
-    [300, 500, 400, 0]
-]
-
-'''
-Graph
-  A   B   C   D
-A 0   400 500 300
-B 400 0   300 500
-C 500 300 0   400
-D 300 500 400 0
-'''
-
-print(hillClimbing(tsp))
+g = graph()
+g.printMatrix()
+g.hillClimbing()
