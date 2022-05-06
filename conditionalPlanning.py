@@ -26,28 +26,22 @@ def isGarbage():
 def action(currentSide):
     return random.sample(actions-{currentSide},1)[0]
 
-def isSideChanged(new,old):
-    return (not new==old)
-
 def conditionalPlan():
     print("Position\t"+"Dirt on left\t"+"Dirt on right\t"+"Action\n")
     while not currentState.compare(goalState):
         newAction = action(currentState.side)
         print(currentState.side+"\t\t"+str(currentState.garbagePresentLeft)+"\t\t"+str(currentState.garbagePresentRight)+"\t\t"+newAction+"\n")
-        sideChanged = False
         if newAction!="suck":
-            sideChanged = isSideChanged(newAction,currentState.side)
-        if not sideChanged:
-            if currentState.side == "right":
-                currentState.garbagePresentRight = isGarbage()
-            elif currentState.side == "left":
-                currentState.garbagePresentLeft = isGarbage()
-        else:
             if currentState.side == "right" and currentState.garbagePresentRight!=True:
                 currentState.garbagePresentRight = isGarbage()
             elif currentState.side == "left" and currentState.garbagePresentLeft!=True:
                 currentState.garbagePresentLeft = isGarbage()
             currentState.side = newAction
+        else:
+            if currentState.side == "right":
+                currentState.garbagePresentRight = isGarbage()
+            elif currentState.side == "left":
+                currentState.garbagePresentLeft = isGarbage()
         path.append(newAction)
     print(currentState.side+"\t\t"+str(currentState.garbagePresentLeft)+"\t\t"+str(currentState.garbagePresentRight)+"\t\t"+newAction+"\n")
 
